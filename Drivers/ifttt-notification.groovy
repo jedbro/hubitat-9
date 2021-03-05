@@ -1,10 +1,11 @@
 metadata {
-  definition (name: "Virtual Notification Device"", namespace: "RMoRobert", author: "Robert Morris") {
+  definition (name: "IFTTT Webhook Notification Device", namespace: "korich", author: "Matt Corich") {
     capability "Notification"
   }
 
   preferences {
-    input("postUrl", "text", title: "Post Url:", description: "The Url to post to")
+    input("eventName", "text", title: "Event:", description: "")
+    input("makerKey", "text", title: "Maker key:", description: "")
     input(name: "logEnable", type: "bool", title: "Enable debug logging", defaultValue: true)
     input(name: "txtEnable", type: "bool", title: "Enable descriptionText logging", defaultValue: true)
   }
@@ -37,7 +38,7 @@ void debugOff() {
 void deviceNotification(notificationText) {
 
   Map params = [
-      uri:  "${postUrl}",
+      uri:  "https://maker.ifttt.com/trigger/${eventName}/with/key/${makerKey}",
       contentType: "application/json",
       body: [value1: notificationText],  // this will get converted to a JSON
       timeout: 15
